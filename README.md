@@ -10,19 +10,6 @@
 
 ---
 
-## 📑 Table of Contents
-1. [Core Features](#-core-features)
-2. [Technical Stack](#-technical-stack)
-3. [System Architecture & Project Structure](#-system-architecture--project-structure)
-4. [Prerequisites](#-prerequisites)
-5. [How to Run the Project (Step-by-Step)](#-how-to-run-the-project-step-by-step)
-6. [Demo User Credentials](#-demo-user-credentials)
-7. [Database Setup & Configuration](#-database-setup--configuration)
-8. [Deployment Guide](#-deployment-guide)
-9. [REST API Reference](#-rest-api-reference)
-
----
-
 ## 🌟 Core Features
 
 - **Senior-Friendly User Interface**: Clean, spacious, uncluttered design using native Bootstrap 5 typography and high-contrast color standards.
