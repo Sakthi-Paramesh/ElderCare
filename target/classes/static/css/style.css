@@ -1,0 +1,603 @@
+/* ==========================================================================
+   ElderCare Connect - Minimal, Professional Healthcare Design System
+   Powered by Bootstrap 5.3 & Google Fonts Inter
+   ========================================================================== */
+
+:root {
+    /* Refined Medical Palette */
+    --bs-primary: #0284c7;
+    --bs-primary-rgb: 2, 132, 199;
+    --medical-primary: #0284c7;
+    --medical-primary-hover: #0369a1;
+    --medical-primary-light: #f0f9ff;
+    
+    /* Neutrals */
+    --medical-body-bg: #f8fafc;
+    --medical-card-bg: #ffffff;
+    --medical-border: #e2e8f0;
+    --medical-heading: #0f172a;
+    --medical-text: #334155;
+    --medical-muted: #64748b;
+    
+    /* Semantic Colors */
+    --medical-success: #16a34a;
+    --medical-success-bg: #f0fdf4;
+    --medical-danger: #dc2626;
+    --medical-danger-bg: #fef2f2;
+    --medical-warning: #d97706;
+    --medical-warning-bg: #fffbeb;
+    
+    /* Native Bootstrap 5 Typography */
+    --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --bs-body-font-family: var(--bs-font-sans-serif);
+    --font-family: var(--bs-body-font-family);
+    --font-base-size: 15px;
+}
+
+/* Accessibility: Scaling & High Contrast */
+body.font-large { --font-base-size: 17px; }
+body.font-xlarge { --font-base-size: 19px; }
+
+body.high-contrast {
+    --medical-body-bg: #000000;
+    --medical-card-bg: #121212;
+    --medical-border: #facc15;
+    --medical-heading: #ffffff;
+    --medical-text: #f1f5f9;
+    --medical-muted: #cbd5e1;
+    --medical-primary: #facc15;
+    --medical-primary-hover: #eab308;
+    --medical-primary-light: #262102;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+body.high-contrast .card,
+body.high-contrast .navbar,
+body.high-contrast .modal-box,
+body.high-contrast .list-group-item {
+    background-color: #121212 !important;
+    border-color: #facc15 !important;
+    color: #ffffff !important;
+}
+
+body.high-contrast .btn-primary {
+    background-color: #facc15 !important;
+    border-color: #facc15 !important;
+    color: #000000 !important;
+    font-weight: 700;
+}
+
+/* Global Reset & Bootstrap 5 Typography */
+html {
+    font-size: var(--font-base-size);
+    scroll-behavior: smooth;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+.btn,
+.card,
+.modal,
+.modal-box,
+.table,
+.navbar,
+.nav-link,
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: var(--bs-body-font-family) !important;
+}
+
+body {
+    background-color: var(--medical-body-bg);
+    color: var(--medical-text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: var(--medical-heading);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+/* Single Streamlined Top Utility Bar */
+.top-utility-bar {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--medical-border);
+    padding: 6px 0;
+    font-size: 0.84rem;
+}
+
+.top-utility-bar a {
+    color: var(--medical-danger);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.top-utility-bar a:hover {
+    text-decoration: underline;
+}
+
+.a11y-pill {
+    background: transparent;
+    border: 1px solid var(--medical-border);
+    border-radius: 4px;
+    padding: 1px 8px;
+    font-size: 0.78rem;
+    color: var(--medical-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.a11y-pill:hover, .a11y-pill.active {
+    background: var(--medical-primary);
+    border-color: var(--medical-primary);
+    color: #ffffff;
+}
+
+/* Clean Bootstrap Navbar */
+.navbar-clean {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--medical-border);
+    padding: 14px 0;
+}
+
+.navbar-brand-clean {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.navbar-brand-icon {
+    width: 38px;
+    height: 38px;
+    background-color: var(--medical-primary);
+    color: #ffffff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.navbar-brand-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--medical-heading);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.navbar-brand-title span {
+    color: var(--medical-primary);
+}
+
+.nav-link-clean {
+    color: var(--medical-text);
+    font-weight: 500;
+    font-size: 0.92rem;
+    padding: 8px 14px !important;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    text-decoration: none;
+}
+
+.nav-link-clean:hover {
+    color: var(--medical-primary);
+    background-color: var(--medical-primary-light);
+}
+
+.nav-link-clean.active {
+    color: var(--medical-primary) !important;
+    background-color: var(--medical-primary-light) !important;
+    font-weight: 600;
+}
+
+/* User Pill & Status Badges */
+.user-info-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    background-color: var(--medical-body-bg);
+    border: 1px solid var(--medical-border);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.badge-role {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Notifications Drawer */
+.notif-wrapper {
+    position: relative;
+}
+
+.notif-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1px solid var(--medical-border);
+    background: #ffffff;
+    color: var(--medical-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease;
+}
+
+.notif-btn:hover {
+    color: var(--medical-primary);
+    border-color: var(--medical-primary);
+}
+
+.notif-counter {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background-color: var(--medical-danger);
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+}
+
+.notif-drawer {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    width: 320px;
+    background: #ffffff;
+    border: 1px solid var(--medical-border);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    display: none;
+    flex-direction: column;
+    z-index: 1050;
+    overflow: hidden;
+}
+
+.notif-drawer.active {
+    display: flex;
+}
+
+.notif-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--medical-border);
+    font-size: 0.86rem;
+    cursor: pointer;
+}
+
+.notif-item:hover {
+    background-color: var(--medical-body-bg);
+}
+
+.notif-item.unread {
+    background-color: var(--medical-primary-light);
+    border-left: 3px solid var(--medical-primary);
+}
+
+/* Modern Minimal Cards */
+.card-clean {
+    background: #ffffff;
+    border: 1px solid var(--medical-border);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border-color: #cbd5e1;
+}
+
+/* Doctor Portrait Box */
+.doctor-avatar-box {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+}
+
+.doctor-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--medical-border);
+}
+
+.doctor-online-dot {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 14px;
+    height: 14px;
+    background-color: var(--medical-success);
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+}
+
+/* Department Filter Strip */
+.specialty-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+}
+
+.specialty-pill {
+    background: #ffffff;
+    border: 1px solid var(--medical-border);
+    color: var(--medical-text);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.specialty-pill:hover {
+    background-color: var(--medical-primary-light);
+    color: var(--medical-primary);
+    border-color: #bae6fd;
+}
+
+.specialty-pill.active {
+    background-color: var(--medical-primary);
+    color: #ffffff;
+    border-color: var(--medical-primary);
+}
+
+/* Metric / KPI Cards */
+.stat-widget {
+    background: #ffffff;
+    border: 1px solid var(--medical-border);
+    border-radius: 10px;
+    padding: 18px 20px;
+}
+
+.stat-widget-number {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--medical-heading);
+    line-height: 1.1;
+}
+
+.stat-widget-label {
+    font-size: 0.82rem;
+    color: var(--medical-muted);
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Appointment Records */
+.appointment-item {
+    background: #ffffff;
+    border: 1px solid var(--medical-border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    transition: all 0.15s ease;
+}
+
+.appointment-item:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.date-badge {
+    background-color: var(--medical-body-bg);
+    border: 1px solid var(--medical-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    min-width: 65px;
+}
+
+.date-badge-day {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--medical-heading);
+    line-height: 1;
+}
+
+.date-badge-month {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--medical-muted);
+}
+
+.date-badge-time {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--medical-primary);
+    margin-top: 2px;
+}
+
+/* Time Slot Pills */
+.slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.slot-pill {
+    background: #ffffff;
+    border: 1px solid var(--medical-border);
+    border-radius: 6px;
+    padding: 8px 2px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--medical-text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.slot-pill:hover {
+    background-color: var(--medical-primary-light);
+    border-color: var(--medical-primary);
+    color: var(--medical-primary);
+}
+
+.slot-pill.selected {
+    background-color: var(--medical-primary);
+    color: #ffffff;
+    border-color: var(--medical-primary);
+}
+
+/* Minimalist Prescription Sheet */
+.rx-paper {
+    background: #ffffff;
+    border: 1px solid var(--medical-border);
+    border-radius: 10px;
+    padding: 24px;
+}
+
+/* Standardized Modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1090;
+    padding: 16px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    max-width: 580px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--medical-border);
+}
+
+.modal-header-clean {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--medical-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body-clean {
+    padding: 22px;
+}
+
+.modal-footer-clean {
+    padding: 14px 22px;
+    border-top: 1px solid var(--medical-border);
+    background-color: #fafafa;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Toast System */
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toast-medical {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    padding: 12px 18px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 280px;
+    border: 1px solid var(--medical-border);
+}
+
+.toast-medical.success { border-left: 4px solid var(--medical-success); }
+.toast-medical.error { border-left: 4px solid var(--medical-danger); }
+.toast-medical.info { border-left: 4px solid var(--medical-primary); }
+
+/* Minimalist Footer */
+.footer-clean {
+    background-color: #ffffff;
+    border-top: 1px solid var(--medical-border);
+    color: var(--medical-muted);
+    margin-top: auto;
+    font-size: 0.88rem;
+    padding: 36px 0 24px;
+}
+
+.footer-link-clean {
+    color: var(--medical-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.footer-link-clean:hover {
+    color: var(--medical-heading);
+}
+
+/* Print Styles */
+@media print {
+    .top-utility-bar, .navbar-clean, .footer-clean, .btn, .modal-footer-clean {
+        display: none !important;
+    }
+    .modal-overlay {
+        position: static !important;
+        background: none !important;
+    }
+    .modal-box {
+        box-shadow: none !important;
+        border: none !important;
+        max-width: 100% !important;
+    }
+}

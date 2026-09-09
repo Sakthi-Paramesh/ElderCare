@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElderCare Connect - Specialist Senior Healthcare & Consultations</title>
+    <meta name="description" content="Compassionate, accessible healthcare platform connecting elderly citizens with specialized geriatric doctors, digital prescriptions, and emergency support.">
+    
+    <!-- Native Bootstrap 5 Typography & Icons -->
+    
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Bootstrap Icons 1.11.3 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Custom Healthcare Minimalist Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- 1. Streamlined Top Utility Bar (Emergency + Demo Quick Switcher + Accessibility) -->
+    <div class="top-utility-bar">
+        <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-telephone-fill text-danger small"></i>
+                <span class="text-muted d-none d-sm-inline">24/7 Helpline:</span>
+                <a href="#" id="emergency-call-btn" title="Emergency Contacts">1800-ELDER-CARE (1800-353-3722)</a>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <!-- Demo Role Switcher -->
+                <div class="d-flex align-items-center gap-1 d-none d-md-flex">
+                    <span class="text-muted small me-1">Demo Login:</span>
+                    <button class="btn btn-sm btn-outline-secondary py-0 px-2 btn-demo-login" data-role="patient" style="font-size: 0.78rem;">Patient</button>
+                    <button class="btn btn-sm btn-outline-secondary py-0 px-2 btn-demo-login" data-role="doctor" style="font-size: 0.78rem;">Doctor</button>
+                    <button class="btn btn-sm btn-outline-secondary py-0 px-2 btn-demo-login" data-role="admin" style="font-size: 0.78rem;">Admin</button>
+                </div>
+
+                <!-- Text Scaling & Contrast -->
+                <div class="d-flex align-items-center gap-1">
+                    <span class="text-muted small d-none d-lg-inline">Text:</span>
+                    <button class="a11y-pill font-size-btn active" data-size="standard" title="Default Text Size">A-</button>
+                    <button class="a11y-pill font-size-btn" data-size="large" title="Large Text Size">A</button>
+                    <button class="a11y-pill font-size-btn" data-size="xlarge" title="Extra Large Text Size">A+</button>
+                    <button class="a11y-pill ms-1" id="contrast-toggle-btn" title="Toggle High Contrast">
+                        <i class="bi bi-circle-half"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Clean Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-clean sticky-top">
+        <div class="container-xl">
+            <!-- Brand -->
+            <a class="navbar-brand-clean" href="#" data-view-target="view-home">
+                <div class="navbar-brand-icon">
+                    <i class="bi bi-hospital"></i>
+                </div>
+                <div class="d-flex flex-column">
+                    <span class="navbar-brand-title">ElderCare<span>Connect</span></span>
+                    <span class="text-muted text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px; font-weight: 600;">Senior Healthcare</span>
+                </div>
+            </a>
+
+            <!-- Mobile Toggler -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-clean active" data-view-target="view-home" href="#">
+                            <i class="bi bi-search me-1 text-primary"></i> Find Specialists
+                        </a>
+                    </li>
+                    <li class="nav-item" id="nav-link-patient" style="display: none;">
+                        <a class="nav-link nav-link-clean" data-view-target="view-patient-dashboard" href="#">
+                            <i class="bi bi-person-circle me-1 text-primary"></i> Patient Portal
+                        </a>
+                    </li>
+                    <li class="nav-item" id="nav-link-doctor" style="display: none;">
+                        <a class="nav-link nav-link-clean" data-view-target="view-doctor-dashboard" href="#">
+                            <i class="bi bi-clipboard2-pulse me-1 text-primary"></i> Doctor Portal
+                        </a>
+                    </li>
+                    <li class="nav-item" id="nav-link-admin" style="display: none;">
+                        <a class="nav-link nav-link-clean" data-view-target="view-admin-dashboard" href="#">
+                            <i class="bi bi-sliders me-1 text-primary"></i> Admin Console
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Actions -->
+                <div class="d-flex align-items-center gap-3">
+                    <!-- Notifications -->
+                    <div class="notif-wrapper">
+                        <button class="notif-btn" onclick="toggleNotificationsDrawer()" title="Notifications">
+                            <i class="bi bi-bell"></i>
+                            <span class="notif-counter" id="notif-count-badge" style="display: none;">0</span>
+                        </button>
+                        <div class="notif-drawer" id="notif-drawer">
+                            <div class="p-3 border-bottom d-flex justify-content-between align-items-center bg-light">
+                                <span class="fw-semibold small">Notifications</span>
+                                <button class="btn btn-sm btn-link p-0 text-decoration-none small" onclick="markAllNotificationsRead()">Mark all as read</button>
+                            </div>
+                            <div id="notif-items-list" style="max-height: 280px; overflow-y: auto;">
+                                <!-- Dynamic notifications -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guest Buttons -->
+                    <div id="nav-guest-actions" class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary px-3" onclick="openModal('modal-login')">
+                            Sign In
+                        </button>
+                        <button class="btn btn-sm btn-primary px-3" onclick="openModal('modal-register-patient')">
+                            Register
+                        </button>
+                    </div>
+
+                    <!-- Authenticated User Menu -->
+                    <div id="nav-user-actions" style="display: none;" class="align-items-center gap-2">
+                        <div class="user-info-pill">
+                            <i class="bi bi-person text-primary"></i>
+                            <span id="nav-user-name" class="fw-semibold">User</span>
+                            <span id="nav-user-role-tag" class="badge bg-primary-subtle text-primary badge-role">Patient</span>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger px-3 rounded-pill" id="nav-logout-btn" title="Sign out">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3. Main Views Container -->
+    <main class="flex-grow-1 py-4">
+        <div class="container-xl">
+
+            <!-- ===================================================================
+                 VIEW 1: HOME & SPECIALIST DISCOVERY
+                 =================================================================== -->
+            <section id="view-home" class="view-section">
+
+                <!-- Spacious Hero Section -->
+                <div class="card card-clean border-0 p-4 p-md-5 mb-5" style="background-color: #ffffff;">
+                    <div class="row align-items-center g-4">
+                        <div class="col-lg-7">
+                            <div class="d-inline-flex align-items-center gap-2 px-2 py-1 rounded bg-light border mb-3">
+                                <span class="badge bg-primary rounded-pill">Verified Care</span>
+                                <span class="small text-secondary">Specialized Geriatric Network</span>
+                            </div>
+                            <h1 class="display-6 fw-bold mb-3 text-dark">
+                                Specialized Healthcare, <span class="text-primary">Tailored for Seniors</span>
+                            </h1>
+                            <p class="text-muted lead mb-4" style="font-size: 1.05rem; max-width: 580px;">
+                                Book priority consultations with certified geriatricians, cardiologists, and joint specialists. Accessible appointments, digital prescriptions, and linked family emergency coordination.
+                            </p>
+
+                            <!-- Clean Search Card -->
+                            <div class="card card-clean p-3 border">
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-md-4">
+                                        <label class="form-label small text-muted mb-1">Doctor Name or Keyword</label>
+                                        <input type="text" class="form-control form-control-sm" id="search-name-input" placeholder="e.g. Dr. Ananya">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small text-muted mb-1">Specialization</label>
+                                        <select class="form-select form-select-sm" id="search-department-select">
+                                            <option value="">All Specializations</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small text-muted mb-1">City</label>
+                                        <input type="text" class="form-control form-control-sm" id="search-city-input" placeholder="e.g. Chennai">
+                                    </div>
+                                    <div class="col-12 mt-3 d-flex gap-2">
+                                        <button class="btn btn-primary btn-sm px-4 flex-grow-1" onclick="executeDoctorSearch()">
+                                            <i class="bi bi-search me-1"></i> Search Specialists
+                                        </button>
+                                        <button class="btn btn-outline-secondary btn-sm px-3" onclick="resetSearch()" title="Reset Filters">
+                                            <i class="bi bi-arrow-counterclockwise"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Trust Highlights -->
+                        <div class="col-lg-5">
+                            <div class="card card-clean p-4 border bg-light">
+                                <h6 class="fw-bold mb-3 text-dark"><i class="bi bi-shield-check text-primary me-2"></i>Senior Healthcare Standards</h6>
+                                
+                                <div class="d-flex flex-column gap-3 mb-4">
+                                    <div class="d-flex gap-3 align-items-start">
+                                        <div class="p-2 bg-white rounded border text-primary">
+                                            <i class="bi bi-person-check fs-5"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold small text-dark">100% Hospital-Affiliated Doctors</div>
+                                            <div class="text-muted small">Verified geriatric specialists and senior care physicians.</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3 align-items-start">
+                                        <div class="p-2 bg-white rounded border text-success">
+                                            <i class="bi bi-bell fs-5"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold small text-dark">Caregiver Visit Notifications</div>
+                                            <div class="text-muted small">Family members receive SMS alerts for every consultation.</div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3 align-items-start">
+                                        <div class="p-2 bg-white rounded border text-warning">
+                                            <i class="bi bi-file-earmark-medical fs-5"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold small text-dark">Digital Large-Print Prescriptions</div>
+                                            <div class="text-muted small">Clear dosages and duration immediately readable and printable.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                                    <span class="small text-muted">Need emergency help?</span>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="openModal('modal-emergency')">
+                                        <i class="bi bi-telephone-fill me-1"></i>Emergency Helplines
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Specialty Quick Filter Strip -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="small fw-semibold text-muted text-uppercase">Filter by Specialty:</span>
+                        <button class="btn btn-sm btn-link p-0 text-decoration-none small text-muted" onclick="resetSearch()">View All</button>
+                    </div>
+                    <div class="specialty-strip" id="departments-strip">
+                        <!-- Dynamic Specialty Pills -->
+                    </div>
+                </div>
+
+                <!-- Section Header: Available Specialists -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h4 class="fw-bold mb-1 text-dark">Verified Specialists</h4>
+                        <p class="text-muted small mb-0">Browse certified physicians, check consultation fees, and reserve your slot.</p>
+                    </div>
+                </div>
+
+                <!-- Doctor Cards Grid -->
+                <div class="row g-3 mb-5" id="doctors-grid">
+                    <!-- Dynamic Doctor Cards loaded by app.js -->
+                </div>
+
+                <!-- 3 Core Principles Highlights -->
+                <div class="row g-3 my-4">
+                    <div class="col-md-4">
+                        <div class="card card-clean p-4 h-100 border text-center">
+                            <div class="mx-auto mb-3 p-2 bg-primary-subtle text-primary rounded-circle" style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-eye fs-5"></i>
+                            </div>
+                            <h6 class="fw-bold mb-2 text-dark">Accessible for Elders</h6>
+                            <p class="text-muted small mb-0">Clean contrast, scalable typography, and simplified forms designed specifically for seniors.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-clean p-4 h-100 border text-center">
+                            <div class="mx-auto mb-3 p-2 bg-success-subtle text-success rounded-circle" style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-capsule fs-5"></i>
+                            </div>
+                            <h6 class="fw-bold mb-2 text-dark">Digital Medication Safety</h6>
+                            <p class="text-muted small mb-0">Structured prescription records that avoid multi-drug confusion and allow family review.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-clean p-4 h-100 border text-center">
+                            <div class="mx-auto mb-3 p-2 bg-warning-subtle text-warning rounded-circle" style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-shield-check fs-5"></i>
+                            </div>
+                            <h6 class="fw-bold mb-2 text-dark">Caregiver Link</h6>
+                            <p class="text-muted small mb-0">Sons, daughters, and primary caregivers are linked directly to every medical booking.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ===================================================================
+                 VIEW 2: PATIENT PORTAL
+                 =================================================================== -->
+            <section id="view-patient-dashboard" class="view-section" style="display: none;">
+
+                <!-- Portal Header -->
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 pb-3 border-bottom">
+                    <div>
+                        <h3 class="fw-bold mb-1 text-dark">Patient Dashboard</h3>
+                        <p class="text-muted small mb-0">Manage scheduled appointments, view prescriptions, and keep caregiver information updated.</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary btn-sm px-3" onclick="showView('view-home')">
+                            <i class="bi bi-plus-lg me-1"></i> Book Appointment
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm px-3" onclick="openModal('modal-emergency')">
+                            <i class="bi bi-telephone me-1"></i> Helpline
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Clean KPI Widgets -->
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number" id="pat-stat-upcoming">1</div>
+                            <div class="stat-widget-label"><i class="bi bi-calendar-event me-1 text-primary"></i>Active Consultations</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number" id="pat-stat-rx">Available</div>
+                            <div class="stat-widget-label"><i class="bi bi-file-earmark-medical me-1 text-success"></i>Digital Prescriptions</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number" id="pat-stat-caregiver">Linked</div>
+                            <div class="stat-widget-label"><i class="bi bi-shield-check me-1 text-warning"></i>Caregiver Contact Sync</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number">Apollo / Fortis</div>
+                            <div class="stat-widget-label"><i class="bi bi-hospital me-1 text-secondary"></i>Network Centers</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-4">
+                    <li class="nav-item">
+                        <button class="nav-link active fw-medium tab-btn" onclick="switchPatientTab('tab-my-appointments', this)">
+                            <i class="bi bi-calendar-week me-1"></i> Consultation Records
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link fw-medium tab-btn" onclick="switchPatientTab('tab-my-profile', this)">
+                            <i class="bi bi-person-lines-fill me-1"></i> Profile & Caregiver SOS
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- TAB 1: Appointments List -->
+                <div id="tab-my-appointments" class="patient-tab-content">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-semibold mb-0 text-dark">Upcoming & Past Appointments</h5>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="loadPatientAppointments()">
+                            <i class="bi bi-arrow-repeat me-1"></i> Refresh
+                        </button>
+                    </div>
+                    <div id="patient-appointments-list">
+                        <!-- Dynamic patient appointments -->
+                    </div>
+                </div>
+
+                <!-- TAB 2: Medical Profile & Emergency Contacts -->
+                <div id="tab-my-profile" class="patient-tab-content" style="display: none;">
+                    <div class="row g-4">
+                        <div class="col-lg-8">
+                            <div class="card card-clean p-4 border">
+                                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                                    <div>
+                                        <h5 class="fw-bold mb-1 text-dark">Personal & Emergency Details</h5>
+                                        <span class="text-muted small">Update your patient file and emergency contacts</span>
+                                    </div>
+                                    <span class="badge bg-success-subtle text-success">Verified Senior Member</span>
+                                </div>
+                                <form id="form-update-profile" onsubmit="event.preventDefault(); showToast('Profile details updated successfully', 'success');">
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-medium text-muted">Full Name</label>
+                                            <input type="text" class="form-control form-control-sm" id="prof-name">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-medium text-muted">Mobile Number</label>
+                                            <input type="text" class="form-control form-control-sm bg-light" id="prof-mobile" readonly>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-medium text-muted">City</label>
+                                            <input type="text" class="form-control form-control-sm" id="prof-city">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-medium text-muted">Residential Address</label>
+                                            <input type="text" class="form-control form-control-sm" id="prof-address">
+                                        </div>
+                                    </div>
+
+                                    <!-- Emergency Caregiver Section -->
+                                    <div class="card p-3 mb-4 border border-danger-subtle bg-light">
+                                        <h6 class="fw-bold text-danger mb-1"><i class="bi bi-shield-exclamation me-1"></i>Emergency Family Contact</h6>
+                                        <p class="text-muted small mb-3">This contact is notified upon each booking and during hospital emergencies.</p>
+                                        <div class="row g-2">
+                                            <div class="col-md-6">
+                                                <label class="form-label small text-muted">Caregiver / Family Member Name</label>
+                                                <input type="text" class="form-control form-control-sm" id="prof-em-name" placeholder="e.g. Karthik Iyer (Son)">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label small text-muted">Emergency Phone</label>
+                                                <input type="tel" class="form-control form-control-sm" id="prof-em-phone" placeholder="e.g. 9840123456">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary btn-sm px-4">
+                                            Save Profile Changes
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Profile Avatar Card -->
+                        <div class="col-lg-4">
+                            <div class="card card-clean p-4 border text-center">
+                                <div class="position-relative d-inline-block mx-auto mb-3">
+                                    <img id="patient-profile-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80" alt="Patient Avatar" class="rounded-circle border" style="width: 88px; height: 88px; object-fit: cover;">
+                                    <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-white rounded-circle" title="Active"></span>
+                                </div>
+                                <h6 class="fw-bold mb-1 text-dark" id="profile-card-name">Ramaswamy Iyer</h6>
+                                <p class="text-muted small mb-3">Senior Care ID: #EC-78402</p>
+
+                                <div class="mb-3">
+                                    <button class="btn btn-sm btn-outline-secondary px-3 py-1" onclick="toggleAvatarSelect()">
+                                        <i class="bi bi-camera me-1"></i>Change Avatar
+                                    </button>
+                                </div>
+
+                                <div id="avatar-picker-strip" class="d-none p-2 mb-3 bg-light rounded border">
+                                    <div class="small text-muted mb-2">Choose Avatar:</div>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" class="rounded-circle border cursor-pointer" style="width: 36px; height: 36px; object-fit: cover;" onclick="selectPatientAvatar(this.src)">
+                                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80" class="rounded-circle border cursor-pointer" style="width: 36px; height: 36px; object-fit: cover;" onclick="selectPatientAvatar(this.src)">
+                                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80" class="rounded-circle border cursor-pointer" style="width: 36px; height: 36px; object-fit: cover;" onclick="selectPatientAvatar(this.src)">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-column gap-2 text-start p-3 rounded bg-light border small mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">Age / Gender:</span>
+                                        <span class="fw-medium">78 Yrs / Male</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">Blood Group:</span>
+                                        <span class="fw-medium text-danger">O +ve</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">Location:</span>
+                                        <span class="fw-medium">Chennai, TN</span>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-outline-danger btn-sm w-100" onclick="openModal('modal-emergency')">
+                                    <i class="bi bi-shield-plus me-1"></i>Emergency Card
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ===================================================================
+                 VIEW 3: DOCTOR PORTAL
+                 =================================================================== -->
+            <section id="view-doctor-dashboard" class="view-section" style="display: none;">
+                
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 pb-3 border-bottom">
+                    <div>
+                        <h3 class="fw-bold mb-1 text-dark">Clinical Schedule</h3>
+                        <p class="text-muted small mb-0">Review incoming appointment requests, confirm patient slots, and issue structured digital prescriptions.</p>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm px-3" onclick="loadDoctorAppointments()">
+                        <i class="bi bi-arrow-repeat me-1"></i> Refresh Schedule
+                    </button>
+                </div>
+
+                <!-- Doctor KPI Metrics -->
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number">Active</div>
+                            <div class="stat-widget-label"><i class="bi bi-calendar-check me-1 text-primary"></i>Clinic Status</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number">30 Min</div>
+                            <div class="stat-widget-label"><i class="bi bi-clock me-1 text-success"></i>Slot Duration</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number">Verified</div>
+                            <div class="stat-widget-label"><i class="bi bi-shield-check me-1 text-warning"></i>Council Status</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number">OPD</div>
+                            <div class="stat-widget-label"><i class="bi bi-hospital me-1 text-secondary"></i>Apollo ElderCare</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="fw-semibold mb-0 text-dark">Patient Appointments</h5>
+                </div>
+
+                <div id="doctor-appointments-list">
+                    <!-- Dynamic doctor appointments -->
+                </div>
+
+            </section>
+
+
+            <!-- ===================================================================
+                 VIEW 4: ADMIN PORTAL
+                 =================================================================== -->
+            <section id="view-admin-dashboard" class="view-section" style="display: none;">
+                
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 pb-3 border-bottom">
+                    <div>
+                        <h3 class="fw-bold mb-1 text-dark">Platform Governance</h3>
+                        <p class="text-muted small mb-0">Platform overview, doctor verification queue, and platform analytics.</p>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm px-3" onclick="loadAdminStats(); loadPendingDoctors();">
+                        <i class="bi bi-arrow-repeat me-1"></i> Refresh Stats
+                    </button>
+                </div>
+
+                <!-- Admin KPI Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number" id="stat-patients">0</div>
+                            <div class="stat-widget-label"><i class="bi bi-people me-1 text-primary"></i>Registered Patients</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number" id="stat-doctors">0</div>
+                            <div class="stat-widget-label"><i class="bi bi-heart-pulse me-1 text-success"></i>Approved Doctors</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number" id="stat-pending">0</div>
+                            <div class="stat-widget-label"><i class="bi bi-hourglass-split me-1 text-warning"></i>Pending Verifications</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="stat-widget">
+                            <div class="stat-widget-number" id="stat-appts">0</div>
+                            <div class="stat-widget-label"><i class="bi bi-calendar-check me-1 text-secondary"></i>Total Consultations</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Approvals Card -->
+                <div class="card card-clean p-4 border">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <h5 class="fw-bold mb-0 text-dark">Pending Doctor Verifications</h5>
+                        <span class="badge bg-warning-subtle text-warning">Review Queue</span>
+                    </div>
+                    <div id="admin-pending-doctors">
+                        <!-- Dynamic pending doctors -->
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ===================================================================
+         4. CLEAN MODALS
+         =================================================================== -->
+
+    <!-- Modal: Book Appointment -->
+    <div class="modal-overlay" id="modal-book-appointment">
+        <div class="modal-box">
+            <div class="modal-header-clean">
+                <h5 class="fw-bold mb-0 text-dark">Book Consultation</h5>
+                <button type="button" class="btn-close" onclick="closeModal('modal-book-appointment')"></button>
+            </div>
+
+            <div class="modal-body-clean">
+                <!-- Doctor Summary -->
+                <div class="p-3 mb-3 rounded bg-light border">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 id="book-doc-name" class="fw-bold mb-1 text-dark">Doctor Name</h6>
+                            <span id="book-doc-spec" class="badge bg-primary-subtle text-primary mb-2">Specialization</span>
+                            <div id="book-doc-hospital" class="small text-muted">Hospital Address</div>
+                        </div>
+                        <div class="text-end">
+                            <span class="small text-muted d-block">Consultation Fee</span>
+                            <span id="book-doc-fee" class="fw-bold text-success fs-5">₹0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Date Picker -->
+                <div class="mb-3">
+                    <label for="book-date-input" class="form-label small fw-medium text-muted">Select Date</label>
+                    <input type="date" class="form-control form-control-sm" id="book-date-input">
+                </div>
+
+                <!-- Slots -->
+                <div class="mb-3">
+                    <label class="form-label small fw-medium text-muted d-flex justify-content-between">
+                        <span>Available Time Slots</span>
+                        <span class="fw-normal">Click a slot to select</span>
+                    </label>
+                    <div class="slots-grid" id="book-slots-grid">
+                        <!-- Dynamic slots -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer-clean">
+                <button type="button" class="btn btn-sm btn-outline-secondary px-3" onclick="closeModal('modal-book-appointment')">Cancel</button>
+                <button type="button" class="btn btn-sm btn-primary px-3" id="btn-confirm-booking" disabled onclick="confirmBooking()">
+                    Select a Time Slot
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: View Prescription -->
+    <div class="modal-overlay" id="modal-view-prescription">
+        <div class="modal-box" style="max-width: 680px;">
+            <div class="modal-header-clean">
+                <h5 class="fw-bold mb-0 text-dark">Consultation Record & Prescription</h5>
+                <button type="button" class="btn-close" onclick="closeModal('modal-view-prescription')"></button>
+            </div>
+
+            <div class="modal-body-clean">
+                <div class="rx-paper">
+                    <div class="d-flex justify-content-between align-items-start pb-3 mb-3 border-bottom">
+                        <div>
+                            <h5 id="rx-modal-doc-name" class="fw-bold text-primary mb-1">Dr. Ananya Sharma</h5>
+                            <div id="rx-modal-doc-spec" class="small text-muted">Geriatric Medicine</div>
+                            <div class="small text-muted">ElderCare Connect Clinical Network</div>
+                        </div>
+                        <div class="text-end small text-muted">
+                            <div><strong>Date:</strong> <span id="rx-modal-date">-</span></div>
+                            <div><strong>Patient:</strong> <span id="rx-modal-patient-name" class="fw-bold text-dark">-</span></div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded bg-light border mb-3 small">
+                        <div class="mb-1"><strong>Diagnosis:</strong> <span id="rx-modal-diagnosis" class="text-dark">-</span></div>
+                        <div><strong>Advice:</strong> <span id="rx-modal-notes" class="text-muted">-</span></div>
+                    </div>
+
+                    <div class="small fw-bold text-muted text-uppercase mb-2">Prescribed Medications (℞)</div>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered mb-0 small">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <th>Dosage</th>
+                                    <th>Duration</th>
+                                    <th>Instructions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rx-table-body">
+                                <!-- Dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer-clean">
+                <button type="button" class="btn btn-sm btn-outline-secondary px-3" onclick="window.print()">
+                    <i class="bi bi-printer me-1"></i> Print
+                </button>
+                <button type="button" class="btn btn-sm btn-primary px-3" onclick="closeModal('modal-view-prescription')">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Write Consultation Record (Doctor) -->
+    <div class="modal-overlay" id="modal-write-consultation">
+        <div class="modal-box" style="max-width: 680px;">
+            <div class="modal-header-clean">
+                <h5 class="fw-bold mb-0 text-dark">Consultation Record for <span id="rx-input-patient-name" class="text-primary">Patient</span></h5>
+                <button type="button" class="btn-close" onclick="closeModal('modal-write-consultation')"></button>
+            </div>
+
+            <div class="modal-body-clean">
+                <div class="mb-3">
+                    <label class="form-label small fw-medium text-muted">Clinical Diagnosis *</label>
+                    <input type="text" class="form-control form-control-sm" id="rx-input-diagnosis" placeholder="e.g. Hypertension Stage 2" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-medium text-muted">Consultation Notes & Advice</label>
+                    <textarea class="form-control form-control-sm" id="rx-input-notes" rows="2" placeholder="e.g. Gentle walking, low sodium diet"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label small fw-medium text-muted mb-0">Prescribed Medications (℞)</label>
+                    <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2" onclick="addPrescriptionRow()" style="font-size: 0.8rem;">
+                        <i class="bi bi-plus"></i> Add Medicine
+                    </button>
+                </div>
+
+                <div id="rx-medicines-container" class="d-flex flex-column gap-2">
+                    <!-- Dynamic medicine rows -->
+                </div>
+            </div>
+
+            <div class="modal-footer-clean">
+                <button type="button" class="btn btn-sm btn-outline-secondary px-3" onclick="closeModal('modal-write-consultation')">Cancel</button>
+                <button type="button" class="btn btn-sm btn-primary px-3" onclick="submitConsultationRecord()">
+                    Save & Issue Rx
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Sign In -->
+    <div class="modal-overlay" id="modal-login">
+        <div class="modal-box" style="max-width: 400px;">
+            <div class="modal-header-clean">
+                <h5 class="fw-bold mb-0 text-dark">Sign In</h5>
+                <button type="button" class="btn-close" onclick="closeModal('modal-login')"></button>
+            </div>
+
+            <div class="modal-body-clean">
+                <form id="form-login">
+                    <div class="mb-3">
+                        <label for="login-email" class="form-label small fw-medium text-muted">Email Address</label>
+                        <input type="email" class="form-control form-control-sm" id="login-email" required placeholder="name@example.com">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label small fw-medium text-muted">Password</label>
+                        <input type="password" class="form-control form-control-sm" id="login-password" required placeholder="••••••••">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-sm w-100 py-2 mt-2">
+                        Sign In
+                    </button>
+                </form>
+
+                <div class="text-center mt-3 pt-3 border-top small text-muted">
+                    Don't have an account? <a href="#" onclick="closeModal('modal-login'); openModal('modal-register-patient');" class="text-primary text-decoration-none fw-semibold">Register as Patient</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Register Patient -->
+    <div class="modal-overlay" id="modal-register-patient">
+        <div class="modal-box" style="max-width: 540px;">
+            <div class="modal-header-clean">
+                <h5 class="fw-bold mb-0 text-dark">Senior Patient Registration</h5>
+                <button type="button" class="btn-close" onclick="closeModal('modal-register-patient')"></button>
+            </div>
+
+            <div class="modal-body-clean">
+                <form id="form-register-patient">
+                    <div class="row g-2 mb-2">
+                        <div class="col-md-6">
+                            <label for="reg-p-name" class="form-label small text-muted">Full Name *</label>
+                            <input type="text" class="form-control form-control-sm" id="reg-p-name" required placeholder="e.g. Ramaswamy Iyer">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="reg-p-mobile" class="form-label small text-muted">Mobile Number *</label>
+                            <input type="tel" class="form-control form-control-sm" id="reg-p-mobile" required placeholder="e.g. 9876543210">
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-2">
+                        <div class="col-md-6">
+                            <label for="reg-p-email" class="form-label small text-muted">Email Address *</label>
+                            <input type="email" class="form-control form-control-sm" id="reg-p-email" required placeholder="name@example.com">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="reg-p-password" class="form-label small text-muted">Password (min 6 chars) *</label>
+                            <input type="password" class="form-control form-control-sm" id="reg-p-password" required minlength="6" placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-2">
+                        <div class="col-md-6">
+                            <label for="reg-p-dob" class="form-label small text-muted">Date of Birth</label>
+                            <input type="date" class="form-control form-control-sm" id="reg-p-dob">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="reg-p-gender" class="form-label small text-muted">Gender</label>
+                            <select class="form-select form-select-sm" id="reg-p-gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6">
+                            <label for="reg-p-city" class="form-label small text-muted">City</label>
+                            <input type="text" class="form-control form-control-sm" id="reg-p-city" placeholder="e.g. Chennai">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="reg-p-address" class="form-label small text-muted">Address</label>
+                            <input type="text" class="form-control form-control-sm" id="reg-p-address" placeholder="e.g. 42 T. Nagar">
+                        </div>
+                    </div>
+
+                    <div class="p-3 mb-3 rounded border bg-light">
+                        <h6 class="fw-semibold text-danger small mb-2"><i class="bi bi-shield-exclamation me-1"></i>Emergency Caregiver Contact</h6>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <label for="reg-p-em-name" class="form-label small text-muted">Caregiver Name</label>
+                                <input type="text" class="form-control form-control-sm" id="reg-p-em-name" placeholder="e.g. Karthik Iyer">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="reg-p-em-phone" class="form-label small text-muted">Emergency Phone</label>
+                                <input type="tel" class="form-control form-control-sm" id="reg-p-em-phone" placeholder="e.g. 9840123456">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-sm w-100 py-2">
+                        Complete Registration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Emergency Helplines -->
+    <div class="modal-overlay" id="modal-emergency">
+        <div class="modal-box" style="max-width: 460px;">
+            <div class="modal-header-clean">
+                <h5 class="fw-bold mb-0 text-danger"><i class="bi bi-telephone-fill me-2"></i>Senior Emergency Numbers</h5>
+                <button type="button" class="btn-close" onclick="closeModal('modal-emergency')"></button>
+            </div>
+
+            <div class="modal-body-clean">
+                <div class="p-3 mb-3 rounded border border-danger-subtle bg-light text-center">
+                    <span class="badge bg-danger mb-2">Priority Helpline</span>
+                    <h5 class="fw-bold text-danger mb-1">ElderCare 24/7 Senior Hotline</h5>
+                    <a href="tel:18003533722" class="fs-4 fw-bold text-danger text-decoration-none d-block my-1">
+                        1800-ELDER-CARE
+                    </a>
+                    <div class="small text-muted">Toll-free emergency medical counseling</div>
+                </div>
+
+                <div class="list-group rounded border mb-2 small">
+                    <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                        <div>
+                            <div class="fw-semibold text-dark">National Ambulance</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">Immediate emergency ambulance dispatch</div>
+                        </div>
+                        <a href="tel:108" class="btn btn-sm btn-outline-danger py-1 px-3">108 / 112</a>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                        <div>
+                            <div class="fw-semibold text-dark">National Elderline</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">Ministry of Social Justice senior helpline</div>
+                        </div>
+                        <a href="tel:14567" class="btn btn-sm btn-outline-secondary py-1 px-3">14567</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer-clean">
+                <button type="button" class="btn btn-sm btn-secondary w-100" onclick="closeModal('modal-emergency')">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- 5. Minimalist Footer -->
+    <footer class="footer-clean">
+        <div class="container-xl">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-5">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="navbar-brand-icon" style="width: 28px; height: 28px; font-size: 0.95rem;">
+                            <i class="bi bi-hospital"></i>
+                        </div>
+                        <span class="fw-bold text-dark">ElderCare Connect</span>
+                    </div>
+                    <p class="small text-muted mb-2" style="max-width: 380px;">
+                        Dedicated senior healthcare platform providing compassionate doctor appointments, structured digital prescriptions, and emergency family coordination.
+                    </p>
+                    <div class="d-flex gap-2 small text-muted">
+                        <span><i class="bi bi-shield-check text-success me-1"></i>HIPAA Compliant</span>
+                        <span>•</span>
+                        <span>ISO 27001 Certified</span>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <h6 class="fw-bold text-dark small mb-3">Quick Navigation</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small mb-0">
+                        <li><a href="#" class="footer-link-clean" onclick="showView('view-home')">Find Specialists</a></li>
+                        <li><a href="#" class="footer-link-clean" onclick="openModal('modal-login')">Patient Portal</a></li>
+                        <li><a href="#" class="footer-link-clean" onclick="openModal('modal-login')">Doctor Practice</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <h6 class="fw-bold text-dark small mb-3">Network Centers</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small mb-0">
+                        <li>Apollo Care, Chennai</li>
+                        <li>Fortis Geriatric, BLR</li>
+                        <li>City Care, Delhi</li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3">
+                    <h6 class="fw-bold text-dark small mb-3">Senior Support</h6>
+                    <p class="small text-muted mb-1">Toll-free 24/7 hotline:</p>
+                    <div class="fw-bold text-primary fs-6">1800-353-3722</div>
+                    <div class="small text-muted">help@eldercare.com</div>
+                </div>
+            </div>
+
+            <div class="pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2 small text-muted">
+                <div>© 2026 ElderCare Connect. Senior Accessibility Compliant.</div>
+                <div>Bootstrap 5.3 & Clean SaaS Architecture</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5.3.3 Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Application Logic -->
+    <script src="/js/app.js"></script>
+
+    <script>
+        function switchPatientTab(tabId, btn) {
+            document.querySelectorAll('.patient-tab-content').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if (target) target.style.display = 'block';
+            if (btn) btn.classList.add('active');
+        }
+
+        function toggleAvatarSelect() {
+            const strip = document.getElementById('avatar-picker-strip');
+            if (strip) strip.classList.toggle('d-none');
+        }
+
+        function selectPatientAvatar(src) {
+            const avatar = document.getElementById('patient-profile-avatar');
+            if (avatar) avatar.src = src;
+            localStorage.setItem('eldercare_patient_avatar', src);
+            toggleAvatarSelect();
+            if (typeof showToast === 'function') showToast('Avatar updated', 'success');
+        }
+    </script>
+</body>
+</html>
